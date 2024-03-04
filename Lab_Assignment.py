@@ -46,7 +46,10 @@ def DFA(dfa, string):
 	Update current state based on the current state's defined transition of the current letter.
 	"""
 	for letter in string:
-		currentState = dfa[currentState][letter]
+		if letter not in alphabet:
+			return 'Error: String has character that is not allowed in the alphabet.'
+		else:
+			currentState = dfa[currentState][letter]
 	"""
 	Finishes going through whole string.
 	Check if current state (once the DFA went through the whole string) matches with the defined accepting state.
@@ -114,4 +117,22 @@ print(f'String: {testString}\nDFA: {dfaOutput}\nExpected: {expectedOutput}\n')
 testString = 'khirbycalm'
 dfaOutput = DFA(khirbyCalmaDFA, testString)
 expectedOutput = 'Reject'
+print(f'String: {testString}\nDFA: {dfaOutput}\nExpected: {expectedOutput}\n')
+
+# invalid character beginning substring
+testString = '&khirbycalma'
+dfaOutput = DFA(khirbyCalmaDFA, testString)
+expectedOutput = 'Error: String has character that is not allowed in the alphabet.'
+print(f'String: {testString}\nDFA: {dfaOutput}\nExpected: {expectedOutput}\n')
+
+# invalid character middle substring
+testString = 'khirbyKcalma'
+dfaOutput = DFA(khirbyCalmaDFA, testString)
+expectedOutput = 'Error: String has character that is not allowed in the alphabet.'
+print(f'String: {testString}\nDFA: {dfaOutput}\nExpected: {expectedOutput}\n')
+
+# invalid character end substring
+testString = 'khirbycalmaC'
+dfaOutput = DFA(khirbyCalmaDFA, testString)
+expectedOutput = 'Error: String has character that is not allowed in the alphabet.'
 print(f'String: {testString}\nDFA: {dfaOutput}\nExpected: {expectedOutput}\n')
