@@ -44,6 +44,7 @@ def DFA(dfa, string):
 	"""
 	Go though each letter in string.
 	Update current state based on the current state's defined transition of the current letter.
+	Also checks if current letter is valid via lowercase alphabet. If not valid, error.
 	"""
 	for letter in string:
 		if letter not in alphabet:
