@@ -19,15 +19,15 @@ def createTransition(sigmaTransitionState, customTransitions = {}):
 khirbyCalmaDFA = {
 	'q0': createTransition('q0', {'k': 'q1'}),
 	'q1': createTransition('q0', {'h': 'q2', 'k': 'q1'}),
-	'q2': createTransition('q0', {'i': 'q3'}),
-	'q3': createTransition('q0', {'r': 'q4'}),
-	'q4': createTransition('q0', {'b': 'q5'}),
-	'q5': createTransition('q0', {'y': 'q6'}),
+	'q2': createTransition('q0', {'i': 'q3', 'k': 'q1'}),
+	'q3': createTransition('q0', {'k': 'q1', 'r': 'q4'}),
+	'q4': createTransition('q0', {'b': 'q5', 'k': 'q1'}),
+	'q5': createTransition('q0', {'k': 'q1', 'y': 'q6'}),
 	'q6': createTransition('q6', {'c': 'q7'}),
 	'q7': createTransition('q6', {'a': 'q8', 'c': 'q7'}),
-	'q8': createTransition('q6', {'l': 'q9'}),
-	'q9': createTransition('q6', {'m': 'q10'}),
-	'q10': createTransition('q6', {'a': 'q11'}),
+	'q8': createTransition('q6', {'c': 'q7', 'l': 'q9'}),
+	'q9': createTransition('q6', {'c': 'q7', 'm': 'q10'}),
+	'q10': createTransition('q6', {'c': 'q7', 'a': 'q11'}),
 	'q11': createTransition('q11'),
 }
 
@@ -82,6 +82,18 @@ print(f'String: {testString}\nDFA: {dfaOutput}\nExpected: {expectedOutput}\n')
 
 # random substring everywhere
 testString = 'sdifhsuifsakkhirbysdofsofsoojccalmaaciuerafbdskjfb'
+dfaOutput = DFA(khirbyCalmaDFA, testString)
+expectedOutput = 'Accept'
+print(f'String: {testString}\nDFA: {dfaOutput}\nExpected: {expectedOutput}\n')
+
+# starting valid character (first name) in beginning substring 
+testString = 'khikhirbycalma'
+dfaOutput = DFA(khirbyCalmaDFA, testString)
+expectedOutput = 'Accept'
+print(f'String: {testString}\nDFA: {dfaOutput}\nExpected: {expectedOutput}\n')
+
+# starting valid character (last name) in middle substring 
+testString = 'khirbycalcalma'
 dfaOutput = DFA(khirbyCalmaDFA, testString)
 expectedOutput = 'Accept'
 print(f'String: {testString}\nDFA: {dfaOutput}\nExpected: {expectedOutput}\n')
