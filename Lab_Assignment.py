@@ -1,23 +1,22 @@
-import re
-
-regex_L = r".*khirby.calma.*"
-
-import graphviz
-
 # Define alphabet (sigma) 
 alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
-# Define transitions
-def createTransition(sigmaTransition, customTransitions = {}): 
+"""
+Define transitions.
+
+sigmaTransitionState: state where the current state goes to with sigma (referece DFA Diagram)
+customTransitions: transitions where current state goes to different state that the sigma does not go to (referece DFA Diagram)
+"""
+def createTransition(sigmaTransitionState, customTransitions = {}): 
 	transitions = {}
 	for letter in alphabet:
 		if letter in customTransitions:
 			transitions[letter] = customTransitions[letter]
 		else:
-			transitions[letter] = sigmaTransition
+			transitions[letter] = sigmaTransitionState
 	return transitions
-
-qStatesAndTransitions = {
+# Uses above-function to create transitions for each state 
+khirbyCalmaDFA = {
 	'q0': createTransition('q0', {'k': 'q1'}),
 	'q1': createTransition('q0', {'h': 'q2', 'k': 'q1'}),
 	'q2': createTransition('q0', {'i': 'q3'}),
@@ -33,62 +32,74 @@ qStatesAndTransitions = {
 }
 
 # Create and visualize the DFA
-def DFA(transitions, string):
+def DFA(dfa, string):
+	"""
+	Define start and accept states.
+	Set current state to start state at the beginning since that is where the beginning of the string begins.
+	Define accept state that will be later comapred to the current state (accepts if matches).
+	"""
 	startState = 'q0'
 	currentState = startState
 	acceptingState = 'q11'
+	"""
+	Go though each letter in string.
+	Update current state based on the current state's defined transition of the current letter.
+	"""
 	for letter in string:
-		currentState = transitions[currentState][letter]
+		currentState = dfa[currentState][letter]
+	"""
+	Finishes going through whole string.
+	Check if current state (once the DFA went through the whole string) matches with the defined accepting state.
+	"""
 	if (currentState == acceptingState):
 		return 'Accept'
 	else:
 		return 'Reject'
 
-# no randomsubstring 
+# no random substring 
 testString = 'khirbycalma'
-dfaOutput = DFA(qStatesAndTransitions, testString)
+dfaOutput = DFA(khirbyCalmaDFA, testString)
 expectedOutput = 'Accept'
 print(f'String: {testString}\nDFA: {dfaOutput}\nExpected: {expectedOutput}\n')
 
 # random substring front
 testString = 'dsfsuyfbqbidskkhirbycalma'
-dfaOutput = DFA(qStatesAndTransitions, testString)
+dfaOutput = DFA(khirbyCalmaDFA, testString)
 expectedOutput = 'Accept'
 print(f'String: {testString}\nDFA: {dfaOutput}\nExpected: {expectedOutput}\n')
 
-
 # random substring middle
 testString = 'khirbydfigufdguibdfvccalma'
-dfaOutput = DFA(qStatesAndTransitions, testString)
+dfaOutput = DFA(khirbyCalmaDFA, testString)
 expectedOutput = 'Accept'
 print(f'String: {testString}\nDFA: {dfaOutput}\nExpected: {expectedOutput}\n')
 
 # random substring end
 testString = 'khirbycalmaaciuerafbdskjfb'
-dfaOutput = DFA(qStatesAndTransitions, testString)
+dfaOutput = DFA(khirbyCalmaDFA, testString)
 expectedOutput = 'Accept'
 print(f'String: {testString}\nDFA: {dfaOutput}\nExpected: {expectedOutput}\n')
 
 # random substring everywhere
 testString = 'sdifhsuifsakkhirbysdofsofsoojccalmaaciuerafbdskjfb'
-dfaOutput = DFA(qStatesAndTransitions, testString)
+dfaOutput = DFA(khirbyCalmaDFA, testString)
 expectedOutput = 'Accept'
 print(f'String: {testString}\nDFA: {dfaOutput}\nExpected: {expectedOutput}\n')
 
 # empty string
 testString = ''
-dfaOutput = DFA(qStatesAndTransitions, testString)
+dfaOutput = DFA(khirbyCalmaDFA, testString)
 expectedOutput = 'Reject'
 print(f'String: {testString}\nDFA: {dfaOutput}\nExpected: {expectedOutput}\n')
 
 # misspelled first name
 testString = 'kirbycalma'
-dfaOutput = DFA(qStatesAndTransitions, testString)
+dfaOutput = DFA(khirbyCalmaDFA, testString)
 expectedOutput = 'Reject'
 print(f'String: {testString}\nDFA: {dfaOutput}\nExpected: {expectedOutput}\n')
 
 # misspelled last name
 testString = 'khirbycalm'
-dfaOutput = DFA(qStatesAndTransitions, testString)
+dfaOutput = DFA(khirbyCalmaDFA, testString)
 expectedOutput = 'Reject'
 print(f'String: {testString}\nDFA: {dfaOutput}\nExpected: {expectedOutput}\n')
