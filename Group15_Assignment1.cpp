@@ -84,9 +84,9 @@ string khirbyCalmaDFA(
     }
 }
 
-// Run test cases
+// Automatically runs through each string test case and prints out the result
 void runTestCases() {
-    // Test cases
+    // Test cases (to add more test cases, include the strings within the testStrings vector)
     vector<string> testStrings = {
         "khirbycalma",
         "dsfsuyfbqbidskkhirbycalma",
@@ -102,7 +102,7 @@ void runTestCases() {
         "khirbyKcalma",
         "khirbycalmaC"
     };
-    // Run test cases
+    // Run each string test case and print its output from the DFA
     for (const string& testString : testStrings) {
         string dfaOutput = khirbyCalmaDFA(statesAndTransitions, startState, acceptingState, testString);
         cout << "Test String: " << testString << "\nDFA: " << dfaOutput << "\n\n";
